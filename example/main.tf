@@ -6,7 +6,7 @@ provider "google" {
 # Create a control plane based on GCP VM
 # Reference: https://docs.gatling.io/reference/install/cloud/private-locations/gcp/installation/
 module "control-plane" {
-  source            = "git::https://github.com/gatling/terraform-gcp-control-plane"
+  source            = "gatling/control-plane/gcp"
   name              = "<Name>"
   description       = "My GCP control plane description"
   token-secret-name = "<TokenSecretName>"
