@@ -1,11 +1,11 @@
 locals {
-  conf_file_name   = "control-plane.conf"
-  host_path        = "/etc/control-plane"
-  mount_path       = "/app/conf"
-  volume           = "-v ${local.host_path}/${local.conf_file_name}:${local.mount_path}/${local.conf_file_name}"
+  conf_file_name = "control-plane.conf"
+  host_path      = "/etc/control-plane"
+  mount_path     = "/app/conf"
+  volume         = "-v ${local.host_path}/${local.conf_file_name}:${local.mount_path}/${local.conf_file_name}"
   git = {
-    creds_enabled  = length(var.git.credentials.token-secret-name) > 0
-    ssh_enabled    = length(var.git.ssh.secret-name) > 0
+    creds_enabled = length(var.git.credentials.token-secret-name) > 0
+    ssh_enabled   = length(var.git.ssh.secret-name) > 0
   }
   ssh_host_path      = "/etc/control-plane/ssh"
   ssh_container_path = "/app/.ssh"
@@ -16,10 +16,10 @@ locals {
     local.git.creds_enabled ? ["-e GIT_TOKEN=$GIT_TOKEN"] : [],
     [for env in lookup(var.container, "environment", []) : "-e ${env}"]
   )
-  environment = join(" ", local.environment_list)
-  port             = "-p ${var.server.port}:${var.server.port}"
-  command          = join(" ", var.container.command)
-  config_content   = <<-EOF
+  environment    = join(" ", local.environment_list)
+  port           = "-p ${var.server.port}:${var.server.port}"
+  command        = join(" ", var.container.command)
+  config_content = <<-EOF
     control-plane {
       token = $${?CONTROL_PLANE_TOKEN}
       description = "${var.description}"
